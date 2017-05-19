@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="help panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Challenge 6: Bypass Captcha
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="help-title">Goal</div>
+
+            <div class="help-content">
+                Pages are restricted to a logged user.
+                Add a login request to the scraper.
+            </div>
+
+            <div class="help-content">
+                Email is <span class="important">john@doe.com</span> and password is <span class="important">johnjohn</span>.
+            </div>
+
+            <div class="help-title">Start</div>
+
+            <div class="help-code">
+                git checkout login
+            </div>
+
+            <div class="help-title">Instructions</div>
+
+            <div class="help-content">
+                <ol>
+                    <li>
+                        Open the file <code>myscraper/spiders/myscraper.py</code>
+                    </li>
+
+                    <li>
+                        Use a <a href="https://doc.scrapy.org/en/latest/topics/request-response.html#formrequest-objects" target="_blank">FormRequest</a>
+                        instead of a <a href="https://doc.scrapy.org/en/latest/topics/request-response.html#request-objects" target="_blank">Request</a>
+                        in the <code>start_requests</code> method
+                    </li>
+
+                    <li>
+                        Use the credentials in the <code>FormRequest</code>
+                    </li>
+
+                    <li>
+                        Add the good URL in <code>FormRequest</code>
+                    </li>
+
+                    <li>
+                        Start the scraper (see <a href="https://github.com/fabienvauchelles/scraping-challenge-workshop#step-4-start-the-scraper" target="_blank">Start instructions</a>)
+                        and check the log <code>item_scraped_count</code>.
+                    </li>
+                </ol>
+            </div>
+
+            <div class="help-title">Soluce</div>
+
+            <div class="help-code">
+                git checkout .
+            </div>
+
+            <div class="help-code">
+                git checkout login-soluce
+            </div>
+        </div>
+    </div>
+
+    <form method="post" action="/captcha/solve">
+        <div class="form-group">
+            <label for="captcha">Please write the text below.</label>
+            <input type="captcha" class="form-control" name="captcha" id="captcha" placeholder="abcde">
+        </div>
+        <img src="{{captcha}}"></img>
+        <button type="submit" class="btn btn-default">Connect</button>
+    </form>
+</div>
