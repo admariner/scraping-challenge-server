@@ -9,8 +9,8 @@ const Person = require('../../model/person.model'),
 module.exports = (config) => {
     const router = new Router();
     var captcha = simpleCaptcha.create();
-    console.log(captcha.text());
     captcha.generate();
+
     // Get
     router.get('/', checkCaptcha, function * (next) {
         const persons = yield Person

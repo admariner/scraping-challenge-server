@@ -2,25 +2,21 @@
     <div class="help panel panel-default">
         <div class="panel-heading">
             <div class="panel-title">
-                Challenge 6: Bypass Captcha
+                Challenge 5: Bypass CAPTCHA
             </div>
         </div>
         <div class="panel-body">
             <div class="help-title">Goal</div>
 
             <div class="help-content">
-                Pages are restricted to a logged user.
-                Add a login request to the scraper.
+                Pages are restricted with a CAPTCHA.
+                Solve the CAPTCHA below to see the data.
             </div>
 
-            <div class="help-content">
-                Email is <span class="important">john@doe.com</span> and password is <span class="important">johnjohn</span>.
-            </div>
-
-            <div class="help-title">Start</div>
+            <div class="help-title">Documentation</div>
 
             <div class="help-code">
-                git checkout login
+                <a target="_blank" href="https://hub.phantombuster.com/reference#buster-solvecaptcha">buster.solveCaptcha()</a>
             </div>
 
             <div class="help-title">Instructions</div>
@@ -28,48 +24,41 @@
             <div class="help-content">
                 <ol>
                     <li>
-                        Open the file <code>myscraper/spiders/myscraper.py</code>
+                        Create the agent <code>scraping-challenge-6</code>
                     </li>
 
                     <li>
-                        Use a <a href="https://doc.scrapy.org/en/latest/topics/request-response.html#formrequest-objects" target="_blank">FormRequest</a>
-                        instead of a <a href="https://doc.scrapy.org/en/latest/topics/request-response.html#request-objects" target="_blank">Request</a>
-                        in the <code>start_requests</code> method
+                        Access this page using <code>tab.open()</code> and <code>tab.waitUntilVisible()</code>.
                     </li>
 
                     <li>
-                        Use the credentials in the <code>FormRequest</code>
+                        Use the function <code>buster.solveCaptcha()</code> to resolve the image.
                     </li>
 
                     <li>
-                        Add the good URL in <code>FormRequest</code>
+                        Fill the form using <code>tab.fill()</code> after using <code>tab.waitUntilVisible()</code> to make sure the data loaded.
                     </li>
 
                     <li>
-                        Start the scraper (see <a href="https://github.com/fabienvauchelles/scraping-challenge-workshop#step-4-start-the-scraper" target="_blank">Start instructions</a>)
-                        and check the log <code>item_scraped_count</code>.
+                        Send the data using <code>buster.setResultObject()</code>.
                     </li>
                 </ol>
             </div>
 
-            <div class="help-title">Soluce</div>
+            <div class="help-title">Solution</div>
 
-            <div class="help-code">
-                git checkout .
-            </div>
-
-            <div class="help-code">
-                git checkout login-soluce
+            <div class="help-content">
+                <a href="#">Lien vers un script d'example</a>
             </div>
         </div>
     </div>
 
     <form method="post" action="/captcha/solve">
+        <img class="captcha-img" src="{{captcha}}"></img></br>
         <div class="form-group">
-            <label for="captcha">Please write the text below.</label>
+            <label for="captcha">Please solve the CAPTCHA below.</label>
             <input type="captcha" class="form-control" name="captcha" id="captcha" placeholder="abcde">
         </div>
-        <img src="{{captcha}}"></img>
-        <button type="submit" class="btn btn-default">Connect</button>
+        <button type="submit" class="btn btn-default">Send</button>
     </form>
 </div>

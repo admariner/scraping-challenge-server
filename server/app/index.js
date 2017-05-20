@@ -12,8 +12,8 @@ module.exports = (config) => {
     router.redirect('/ch2', '/pagination');
     router.redirect('/ch3', '/useragent');
     router.redirect('/ch4', '/login');
-    router.redirect('/ch5', '/scrapoxy');
-    router.redirect('/ch6', '/captcha');
+    router.redirect('/ch5', '/captcha');
+    // router.redirect('/ch6', '/scrapoxy');
     // router.redirect('/ch7', '/scrapoxy-adv');
 
     // CSV
@@ -31,14 +31,14 @@ module.exports = (config) => {
     // Login
     router.use('/login', require('./login')(config));
 
+    // Captcha
+    router.use('/captcha', require('./captcha')(config));
+
     // ScrapingHub
     // router.use('/shub', require('./shub')(config));
 
     // Scrapoxy
-    router.use('/scrapoxy', require('./scrapoxy')(config));
-
-    // Captcha
-    router.use('/captcha', require('./captcha')(config));
+    // router.use('/scrapoxy', require('./scrapoxy')(config));
 
     // Scrapoxy Advanced
     // router.use('/scrapoxy-adv', require('./scrapoxy-adv')(config));
