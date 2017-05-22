@@ -8,7 +8,7 @@ const Person = require('../../model/person.model'),
 
 module.exports = (config) => {
     const router = new Router();
-    var captcha = simpleCaptcha.create();
+    var captcha = simpleCaptcha.create({width: 250, height: 100});
     captcha.generate();
 
     // Get
@@ -30,7 +30,7 @@ module.exports = (config) => {
 
     // Get (captcha form)
     router.get('/form', function * (next) {
-        captcha = simpleCaptcha.create();
+        captcha = simpleCaptcha.create({width: 250, height: 100});
         captcha.generate();
         yield this.render('captcha/form', {
             title: 'Captcha',
