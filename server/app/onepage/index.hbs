@@ -10,13 +10,18 @@
 
             <div class="help-content">
                 All the Titanic passengers are in this page.
-                Create a scraper to scrap all everyone.
+                Create an agent to scrap every passenger.
             </div>
 
-            <div class="help-title">Start</div>
+            <div class="help-title">Documentation</div>
 
             <div class="help-code">
-                git checkout onepage
+                <a target="_blank" href="https://hub.phantombuster.com/reference#nick-newtab">nick.newTab()</a></br>
+                <a target="_blank" href="https://hub.phantombuster.com/reference#nick-open">tab.open()</a></br>
+                <a target="_blank" href="https://hub.phantombuster.com/reference#nick-waituntilvisible">tab.waitUntilVisible()</a></br>
+                <a target="_blank" href="https://hub.phantombuster.com/reference#nick-inject">tab.inject()</a></br>
+                <a target="_blank" href="https://hub.phantombuster.com/reference#nick-evaluate">tab.evaluate()</a></br>
+                <a target="_blank" href="https://hub.phantombuster.com/reference#buster-setresultobject">buster.setResultObject()</a></br>
             </div>
 
             <div class="help-title">Instructions</div>
@@ -24,39 +29,35 @@
             <div class="help-content">
                 <ol>
                     <li>
-                        Install Scrapy (see <a href="https://github.com/fabienvauchelles/scraping-challenge-workshop#step-1-fill-prerequisite" target="_blank">Install instructions</a>)
+                        Create the agent <code>scraping-challenge-1</code>
                     </li>
 
                     <li>
-                        Open the file <code>myscraper/spiders/myscraper.py</code>
+                        Access this page using <code>tab.open()</code> to open the page.
                     </li>
 
                     <li>
-                        Fill the <code>start_requests</code> method
+                        Wait for an element to load before scraping with <code>tab.waitUntilVisible()</code>.
                     </li>
 
                     <li>
-                        Fill the <code>parse</code> method
+                        Use the function <code>tab.inject()</code> to inject jQuery in the page.
                     </li>
 
                     <li>
-                        Start the scraper (see <a href="https://github.com/fabienvauchelles/scraping-challenge-workshop#step-4-start-the-scraper" target="_blank">Start instructions</a>)
+                        Create a function to scrape the page with jQuery now that it is injected and execute it in the page using <code>tab.evaluate()</code>.
                     </li>
 
                     <li>
-                        The log <code>item_scraped_count</code> must indicate that the scraper has received 100 items.
+                        Send the data using <code>buster.setResultObject()</code>.
                     </li>
                 </ol>
             </div>
 
-            <div class="help-title">Soluce</div>
+            <div class="help-title">Solution</div>
 
-            <div class="help-code">
-                git checkout .
-            </div>
-
-            <div class="help-code">
-                git checkout onepage-soluce
+            <div class="help-content">
+                <a href="#">Lien vers un script d'example</a>
             </div>
         </div>
     </div>

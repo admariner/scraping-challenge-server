@@ -13,10 +13,10 @@
                 Try with Chrome AND Firefox and change the user agent.
             </div>
 
-            <div class="help-title">Start</div>
+            <div class="help-title">Documentation</div>
 
             <div class="help-code">
-                git checkout useragent
+                <a target="_blank" href="https://hub.phantombuster.com/reference#nick">const nick = new Nick(options)</a></br>
             </div>
 
             <div class="help-title">Instructions</div>
@@ -24,45 +24,39 @@
             <div class="help-content">
                 <ol>
                     <li>
-                        Open this page with Firefox
+                        Create the agent <code>scraping-challenge-1</code>
                     </li>
 
                     <li>
-                        Open this page with Chrome and check the difference
+                        When creating your nick, put the option <code>userAgent: "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"</code> to imitate Chrome browser.
                     </li>
 
                     <li>
-                        Start the scraper (see <a href="https://github.com/fabienvauchelles/scraping-challenge-workshop#step-4-start-the-scraper" target="_blank">Start instructions</a>)
-                        and check the log <code>item_scraped_count</code>.
+                        Access this page using <code>tab.open()</code> to open the page.
                     </li>
 
                     <li>
-                        Find the User Agent of Chrome on <a href="http://www.useragentstring.com" target="_blank">UserAgentString</a>
+                        Wait for an element to load before scraping with <code>tab.waitUntilVisible()</code>.
                     </li>
 
                     <li>
-                        Open the file <code>myscraper/settings.py</code>
+                        Use the function <code>tab.inject()</code> to inject jQuery in the page.
                     </li>
 
                     <li>
-                        Change the User Agent (see <a href="https://doc.scrapy.org/en/latest/topics/settings.html?highlight=USER_AGENT#user-agent" target="_blank">USER_AGENT</a>)
+                        Create a function to scrape the page with jQuery now that it is injected and execute it in the page using <code>tab.evaluate()</code>.
                     </li>
 
                     <li>
-                        Start the scraper (see <a href="https://github.com/fabienvauchelles/scraping-challenge-workshop#step-4-start-the-scraper" target="_blank">Start instructions</a>)
-                        and check the log <code>item_scraped_count</code>.
+                        Send the data using <code>buster.setResultObject()</code>.
                     </li>
                 </ol>
             </div>
 
-            <div class="help-title">Soluce</div>
+            <div class="help-title">Solution</div>
 
-            <div class="help-code">
-                git checkout .
-            </div>
-
-            <div class="help-code">
-                git checkout useragent-soluce
+            <div class="help-content">
+                <a href="#">Lien vers un script d'example</a>
             </div>
         </div>
     </div>

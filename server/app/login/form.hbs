@@ -17,10 +17,10 @@
                 Email is <span class="important">john@doe.com</span> and password is <span class="important">johnjohn</span>.
             </div>
 
-            <div class="help-title">Start</div>
+            <div class="help-title">Documentation</div>
 
             <div class="help-code">
-                git checkout login
+                <a target="_blank" href="https://hub.phantombuster.com/reference#nick-fill">tab.fill()</a>
             </div>
 
             <div class="help-title">Instructions</div>
@@ -28,38 +28,27 @@
             <div class="help-content">
                 <ol>
                     <li>
-                        Open the file <code>myscraper/spiders/myscraper.py</code>
+                        Create the agent <code>scraping-challenge-4</code>
                     </li>
 
                     <li>
-                        Use a <a href="https://doc.scrapy.org/en/latest/topics/request-response.html#formrequest-objects" target="_blank">FormRequest</a>
-                        instead of a <a href="https://doc.scrapy.org/en/latest/topics/request-response.html#request-objects" target="_blank">Request</a>
-                        in the <code>start_requests</code> method
+                        Access this page using <code>tab.open()</code> and <code>tab.waitUntilVisible()</code>.
                     </li>
 
                     <li>
-                        Use the credentials in the <code>FormRequest</code>
+                        Use the function <code>tab.fill()</code> to login using the form and use <code>tab.waitUntilVisible()</code> to make sure the data loaded.
                     </li>
 
                     <li>
-                        Add the good URL in <code>FormRequest</code>
-                    </li>
-
-                    <li>
-                        Start the scraper (see <a href="https://github.com/fabienvauchelles/scraping-challenge-workshop#step-4-start-the-scraper" target="_blank">Start instructions</a>)
-                        and check the log <code>item_scraped_count</code>.
+                        Send the data using <code>buster.setResultObject()</code>.
                     </li>
                 </ol>
             </div>
 
-            <div class="help-title">Soluce</div>
+            <div class="help-title">Solution</div>
 
-            <div class="help-code">
-                git checkout .
-            </div>
-
-            <div class="help-code">
-                git checkout login-soluce
+            <div class="help-content">
+                <a href="#">Lien vers un script d'example</a>
             </div>
         </div>
     </div>
