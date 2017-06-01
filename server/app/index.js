@@ -11,8 +11,16 @@ module.exports = (config) => {
     router.redirect('/ch1', '/onepage');
     router.redirect('/ch2', '/pagination');
     router.redirect('/ch3', '/useragent');
-    router.redirect('/ch4', '/login');
-    router.redirect('/ch5', '/captcha');
+    router.get('/ch4', function * () {
+        this.cookies.set('token', 'wrong token');
+
+        return this.redirect('/login');
+    });
+    router.get('/ch5', function * () {
+        this.cookies.set('token', 'wrong token');
+
+        return this.redirect('/captcha');
+    });
     // router.redirect('/ch6', '/scrapoxy');
     // router.redirect('/ch7', '/scrapoxy-adv');
 
