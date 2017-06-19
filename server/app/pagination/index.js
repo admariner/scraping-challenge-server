@@ -36,14 +36,14 @@ module.exports = (config) => {
             count: count,
         };
 
-        const pageMax = Math.floor(count / config.pagination.size);
+        const pageMax = Math.floor(count / config.pagination.size) - 1;
 
         if (page > 0) {
-            opts.pageMin = page - 1;
+            opts.pageMin = (page - 1).toString();
         }
 
         if (page < pageMax) {
-            opts.pagePlus = page + 1;
+            opts.pagePlus = (page + 1).toString();
         }
 
         yield this.render('pagination/index', opts);
