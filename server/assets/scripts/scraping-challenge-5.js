@@ -1,16 +1,13 @@
 // Phantombuster configuration {
 
-"phantombuster command: casperjs"
-"phantombuster package: 3"
-"phantombuster transform: babel"
+"phantombuster command: nodejs"
+"phantombuster package: 4"
 "phantombuster flags: save-folder" // Save all files at the end of the script
 
-import "babel-polyfill"
-
-import Buster from "phantombuster"
+const Buster = require("phantombuster")
 const buster = new Buster()
 
-import Nick from "nickjs"
+const Nick = require("nickjs")
 const nick = new Nick({
 	userAgent: "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
 	loadImages: true
@@ -44,14 +41,22 @@ const scrape = (arg, done) => {
 	done(null, $.makeArray(data))
 }
 
-nick.newTab().then(async (tab) => {
+// Simple function to get the base64 source of the captcha image (use solveCaptchaImage for non base64 image)
+const getImageSrc = (arg, done) => {
+	done(null, document.querySelector("img.captcha-img").src)
+}
+
+;(async () => {
+	const tab = await nick.newTab()
 	await tab.open("http://scraping-challenges.phantombuster.com/captcha")
-	await tab.waitUntilVisible("form")
+	await tab.waitUntilVisible("img.captcha-img")
+	// First get the source of the image to solve the captcha
+	const captchaBase64 = await tab.evaluate(getImageSrc)
 	// Get the text of the captcha using buster.solveCaptcha (it uses the casper context to take a screenshot)
 	// You can use other captcha's method if you don't want to use casper as 
-	const captchaText = await buster.solveCaptcha("img.captcha-img", tab.driver.casper)
+	const captchaText = await buster.solveCaptchaBase64(captchaBase64)
 	await tab.fill("form", { captcha: captchaText }, { submit: true })
-	await tab.waitUntilVisible(".panel-body")
+	await tab.waitUntilVisible(".person > .panel-body")
 	if ((await tab.getUrl()) === "http://scraping-challenges.phantombuster.com/captcha/form") {
 		// In case the captcha solver fails (succeed in 95% of situations)
 		await tab.screenshot("error.jpg")
@@ -62,10 +67,8 @@ nick.newTab().then(async (tab) => {
 	const result = await tab.evaluate(scrape)
 	await buster.setResultObject(result)
 	await tab.screenshot("screenshot.jpg")
-})
-.then(() => {
-	nick.exit(0)
-})
+	nick.exit()
+})()
 .catch((err) => {
 	console.log(`Something went wrong: ${err}`)
 	nick.exit(1)

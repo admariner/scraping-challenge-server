@@ -1,16 +1,13 @@
 // Phantombuster configuration {
 
-"phantombuster command: casperjs"
-"phantombuster package: 3"
-"phantombuster transform: babel"
+"phantombuster command: nodejs"
+"phantombuster package: 4"
 "phantombuster flags: save-folder" // Save all files at the end of the script
 
-import "babel-polyfill"
-
-import Buster from "phantombuster"
+const Buster = require("phantombuster")
 const buster = new Buster()
 
-import Nick from "nickjs"
+const Nick = require("nickjs")
 const nick = new Nick()
 
 // }
@@ -46,30 +43,29 @@ const scrape = (arg, done) => {
 }
 
 // Same function in challenge 1 but in a function to reuse it
-const scrapePage = async (url) => {
-	const tab = await nick.newTab()
+const scrapePage = async (tab, url) => {
 	await tab.open(url)
 	await tab.waitUntilVisible(".panel-body")
 	await tab.inject("../injectables/jquery-3.0.0.min.js")
 	const data = await tab.evaluate(scrape)
-	await tab.close()
 	return data
 }
 
 // Loop to get all data by concataining it in res
 const scrapeAllPages = async () => {
 	let res = []
+	// Create a tab to load pages
+	const tab = await nick.newTab()
 	// There is 50 pages so we loop 50 times
 	for (let i = 0; i < 50; i++) {
-		res = res.concat(await scrapePage(baseUrl+i))
+		res = res.concat(await scrapePage(tab, baseUrl+i))
 	}
+	await tab.close()
 	await buster.setResultObject(res)
+	nick.exit(0)
 }
 
 scrapeAllPages()
-.then(() => {
-	nick.exit(0)
-})
 .catch((err) => {
 	console.log(`Something went wrong: ${err}`)
 	nick.exit(1)

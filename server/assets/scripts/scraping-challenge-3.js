@@ -1,16 +1,13 @@
 // Phantombuster configuration {
 
-"phantombuster command: casperjs"
-"phantombuster package: 3"
-"phantombuster transform: babel"
+"phantombuster command: nodejs"
+"phantombuster package: 4"
 "phantombuster flags: save-folder" // Save all files at the end of the script
 
-import "babel-polyfill"
-
-import Buster from "phantombuster"
+const Buster = require("phantombuster")
 const buster = new Buster()
 
-import Nick from "nickjs"
+const Nick = require("nickjs")
 const nick = new Nick({
 	// Set the userAgent to be able to access the page (otherwise the useragent is random)
 	userAgent: "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
@@ -45,17 +42,16 @@ const scrape = (arg, done) => {
 }
 
 // Same thing as in challenge one, the page is identical only the user agent needs to be set
-nick.newTab().then(async (tab) => {
+;(async () => {
+	const tab = await nick.newTab()
 	await tab.open("http://scraping-challenges.phantombuster.com/useragent")
 	await tab.waitUntilVisible(".panel-body")
 	await tab.inject("../injectables/jquery-3.0.0.min.js")
 	const result = await tab.evaluate(scrape)
 	await tab.screenshot("screenshot.jpg")
 	await buster.setResultObject(result)
-})
-.then(() => {
-	nick.exit(0)
-})
+	nick.exit()
+})()
 .catch((err) => {
 	console.log(`Something went wrong: ${err}`)
 	nick.exit(1)

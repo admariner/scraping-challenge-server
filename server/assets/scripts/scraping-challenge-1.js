@@ -1,16 +1,13 @@
 // Phantombuster configuration {
 
-"phantombuster command: casperjs"
-"phantombuster package: 3"
-"phantombuster transform: babel"
+"phantombuster command: nodejs"
+"phantombuster package: 4"
 "phantombuster flags: save-folder" // Save all files at the end of the script
 
-import "babel-polyfill"
-
-import Buster from "phantombuster"
+const Buster = require("phantombuster")
 const buster = new Buster()
 
-import Nick from "nickjs"
+const Nick = require("nickjs")
 const nick = new Nick()
 
 // }
@@ -42,7 +39,9 @@ const scrape = (arg, done) => {
 	done(null, $.makeArray(data))
 }
 
-nick.newTab().then(async (tab) => {
+;(async () => {
+	// Create a new tab in your browser
+	const tab = await nick.newTab()
 	// Open the webpage
 	await tab.open("http://scraping-challenges.phantombuster.com/onepage")
 	// Wait for the data to be visible
@@ -55,11 +54,11 @@ nick.newTab().then(async (tab) => {
 	await tab.screenshot("screenshot.jpg")
 	// Send the data in the result object
 	await buster.setResultObject(result)
-})
-.then(() => {
-	nick.exit(0)
-})
+	// Exit the programm without errors
+	nick.exit()
+})()
 .catch((err) => {
 	console.log(`Something went wrong: ${err}`)
+	// Exit the programm with errors
 	nick.exit(1)
 })
