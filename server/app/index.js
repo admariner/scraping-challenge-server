@@ -21,8 +21,11 @@ module.exports = (config) => {
 
         return this.redirect('/captcha');
     });
-    // router.redirect('/ch6', '/scrapoxy');
-    // router.redirect('/ch7', '/scrapoxy-adv');
+    router.get('/ch6', function * () {
+        this.cookies.set('myCookie', '');
+
+        return this.redirect('/cookies');
+    });
 
     // CSV
     router.use('/csv', require('./csv')(config));
@@ -42,14 +45,8 @@ module.exports = (config) => {
     // Captcha
     router.use('/captcha', require('./captcha')(config));
 
-    // ScrapingHub
-    // router.use('/shub', require('./shub')(config));
-
-    // Scrapoxy
-    // router.use('/scrapoxy', require('./scrapoxy')(config));
-
-    // Scrapoxy Advanced
-    // router.use('/scrapoxy-adv', require('./scrapoxy-adv')(config));
+    // Cookies
+    router.use('/cookies', require('./cookies')(config));
 
     // Get
     router.get('/', function * (next) {
