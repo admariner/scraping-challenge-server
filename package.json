@@ -37,7 +37,8 @@
     "mongoose": "^4.2.7",
     "simple-captcha": "^0.1.10",
     "winston": "^2.1.1",
-    "wrench": "^1.5.8"
+    "wrench": "^1.5.8",
+    "serverless-http": "~2.0.2"
   },
   "devDependencies": {
     "gulp-watch": "^4.3.5",

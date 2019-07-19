@@ -2,6 +2,8 @@
  * MAIN: Configuration and main application
  */
 
+const serverless = require('serverless-http');
+
 const bodyParser = require('koa-bodyparser'),
     compress = require('koa-compress'),
     errorHandler = require('koa-error'),
@@ -49,12 +51,13 @@ app.use(hbs.middleware(config.template));
 app.use(serve('assets'));
 
 // Define routes
-app.use(require('./app')(config));
+app.use('/.netlify/functions/server', require('./app')(config));
 
 
 // Start server
-app.listen(config.port);
-winston.info('%s server listening at http://localhost:%d', app.name, config.port);
-
+//app.listen(config.port);
+//winston.info('%s server listening at http://localhost:%d', app.name, config.port);
 
 module.exports = app;
+
+module.exports.handler = serverless(app);
