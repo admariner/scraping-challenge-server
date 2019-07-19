@@ -44,7 +44,7 @@
     "gulp-eslint": "^1.1.1"
   },
   "engines": {
-    "node": ">=4.2.1",
+    "node": "<9.0.0",
     "npm": ">=3.5.0"
   },
   "scripts": {
