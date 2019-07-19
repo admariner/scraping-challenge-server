@@ -2,7 +2,7 @@ module.exports = {
     port: process.env.PORT || 9000,
 
     mongo: {
-        url: process.env.MONGO_URI || 'mongodb://localhost/scraping-challenge',
+        url: process.env.MONGOLAB_URI || 'mongodb://localhost/scraping-challenge',
     },
 
     assets: {
@@ -33,7 +33,7 @@ module.exports = {
     },
 
     jwt: {
-        secret: process.env.JWT_TOKEN || 'Kkbxz1Thpi87u91gHNXO4Mt4YD58rW8e',
+        secret: 'Kkbxz1Thpi87u91gHNXO4Mt4YD58rW8e',
         expiresIn: '10m',
     },
 };
