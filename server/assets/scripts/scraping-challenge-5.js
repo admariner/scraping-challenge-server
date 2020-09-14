@@ -7,7 +7,7 @@ const buster = new Buster()
 const puppeteer = require("puppeteer")
 
 // Simple scraping function, getting all the infos using jQuery and returning them with the callback "done"
-const scrape = (arg, done) => {
+const scrape = () => {
 	const data = $("div.person > div.panel-body").map(function(){
 		return {
 			name: $(this).find(".name").text().trim(),
