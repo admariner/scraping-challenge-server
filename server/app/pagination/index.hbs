@@ -16,13 +16,13 @@
             <div class="help-title">Documentation</div>
 
             <div class="help-code">
-                <a target="_blank" href="https://hub.phantombuster.com/reference#nick-click">tab.click()</a></br>
-            </div>
-
-            <div class="help-title">Bonus</div>
-
-            <div class="help-code">
-                Try doing it without tab.click(). (for of + url pagination)
+                <a target="_blank" href="https://pptr.dev/#?product=Puppeteer&version=v2.0.0&show=api-puppeteerlaunchoptions">Puppeteer.launch()</a></br>
+                <a target="_blank" href="https://pptr.dev/#?product=Puppeteer&version=v2.0.0&show=api-browsernewpage">Puppeteer.newPage()</a></br>
+                <a target="_blank" href="https://pptr.dev/#?product=Puppeteer&version=v2.0.0&show=api-pagegotourl-options">Puppeteer.Page.goto()</a></br>
+                <a target="_blank" href="https://pptr.dev/#?product=Puppeteer&version=v2.0.0&show=api-pagewaitforselectorselector-options">Puppeteer.Page.waitForSelector()</a></br>
+                <a target="_blank" href="https://pptr.dev/#?product=Puppeteer&version=v2.0.0&show=api-pageaddscripttagoptions">Puppeteer.Page.addScriptTag()</a></br>
+                <a target="_blank" href="https://pptr.dev/#?product=Puppeteer&version=v2.0.0&show=api-pageevaluatepagefunction-args">Puppeteer.Page.evaluate()</a></br>
+                <a target="_blank" href="https://hub.phantombuster.com/reference#buster-setresultobject">buster.setResultObject()</a></br>
             </div>
 
             <div class="help-title">Instructions</div>
@@ -34,23 +34,23 @@
                     </li>
 
                     <li>
-                        Access this page using <code>tab.open()</code> to open the page.
+                        Access this page using <code>Puppeteer.newPage() and Puppeteer.Page.goto()</code> to open the page.
                     </li>
 
                     <li>
-                        Wait for an element to load before scraping with <code>tab.waitUntilVisible()</code>.
+                        Wait for an element to load before scraping with <code>Puppeteer.Page.waitForSelector()</code>.
                     </li>
 
                     <li>
-                        Use the function <code>tab.inject()</code> to inject jQuery in the page.
+                        Use the function <code>Puppeteer.Page.addScriptTag()</code> to inject jQuery in the page.
                     </li>
 
                     <li>
-                        Create a function to scrape the page with jQuery now that it is injected and execute it in the page using <code>tab.evaluate()</code>.
+                        Create a function to scrape the page with jQuery now that it is injected and execute it in the page using <code>Puppeteer.Page.evaluate()</code>.
                     </li>
 
                     <li>
-                        Use <code>tab.click()</code> on the next button or use the url pagination and a for loop and repeat the scraping.
+                        Use the url pagination and a for loop and repeat the scraping.
                     </li>
 
                     <li>

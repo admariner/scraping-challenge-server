@@ -1,23 +1,15 @@
-// Phantombuster configuration {
-
 "phantombuster command: nodejs"
-"phantombuster package: 4"
+"phantombuster package: 5"
 "phantombuster flags: save-folder" // Save all files at the end of the script
 
 const Buster = require("phantombuster")
 const buster = new Buster()
+const puppeteer = require("puppeteer")
 
-const Nick = require("nickjs")
-const nick = new Nick({
-	userAgent: "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
-	loadImages: true
-})
-
-// }
-
-const scrape = (arg, done) => {
-	var data = $("div.person > div.panel-body").map(function () {
-		return({
+// Simple scraping function, getting all the infos using jQuery and returning them
+const scrape = () => {
+	const data = $("div.person > div.panel-body").map(function(){
+		return {
 			name: $(this).find(".name").text().trim(),
 			birth_year: $(this).find(".birth_year").text().trim(),
 			death_year: $(this).find(".death_year").text().trim(),
@@ -36,40 +28,49 @@ const scrape = (arg, done) => {
 			died_in_titanic: $(this).find(".died_in_titanic").text().trim(),
 			body_recovered: $(this).find(".body_recovered").text().trim(),
 			rescue_boat_num: $(this).find(".rescue_boat_num").text().trim()
-		})
+		}
 	})
-	done(null, $.makeArray(data))
+	return $.makeArray(data)
 }
 
 // Simple function to get the base64 source of the captcha image (use solveCaptchaImage for non base64 image)
-const getImageSrc = (arg, done) => {
-	done(null, document.querySelector("img.captcha-img").src)
-}
+const getImageSrc = () => document.querySelector("img.captcha-img").src
 
 ;(async () => {
-	const tab = await nick.newTab()
-	await tab.open("http://scraping-challenges.phantombuster.com/captcha")
-	await tab.waitUntilVisible("img.captcha-img")
+	// Init browser environment
+	const browser = await puppeteer.launch({
+		// This is needed to run Puppeteer in a Phantombuster container
+		args: ["--no-sandbox"]
+	})
+	const page = await browser.newPage()
+	// Set the userAgent to be able to access the page (otherwise the useragent is random)
+	await page.setUserAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
+	// Open the webpage
+	await page.goto("http://scraping-challenges.phantombuster.com/captcha")
+	// Wait for the form to be visible
+	await page.waitForSelector("img.captcha-img")
 	// First get the source of the image to solve the captcha
-	const captchaBase64 = await tab.evaluate(getImageSrc)
-	// Get the text of the captcha using buster.solveCaptcha (it uses the casper context to take a screenshot)
-	// You can use other captcha's method if you don't want to use casper as 
+	const captchaBase64 = await page.evaluate(getImageSrc)
+	// Get the text of the captcha using buster.solveCaptcha
 	const captchaText = await buster.solveCaptchaBase64(captchaBase64)
-	await tab.fill("form", { captcha: captchaText }, { submit: true })
-	await tab.waitUntilVisible(".person > .panel-body")
-	if ((await tab.getUrl()) === "http://scraping-challenges.phantombuster.com/captcha/form") {
+	// Fill the form and submit
+	await page.type("#captcha", captchaText)
+	await page.click("form button")
+	await page.waitForSelector(".person > .panel-body")
+	if ((page.url()) === "http://scraping-challenges.phantombuster.com/captcha/form") {
 		// In case the captcha solver fails (succeed in 95% of situations)
-		await tab.screenshot("error.jpg")
+		await page.screenshot({ path: "error.jpg" })
 		console.log(`Failed to solve captcha: ${captchaText}`)
-		nick.exit(1)
+		process.exit(1)
 	}
-	await tab.inject("../injectables/jquery-3.0.0.min.js")
-	const result = await tab.evaluate(scrape)
+	// Inject jQuery to manipulate the page easily
+	await page.addScriptTag({ path: "../injectables/jquery-3.0.0.min.js" })
+	const result = await page.evaluate(scrape)
 	await buster.setResultObject(result)
-	await tab.screenshot("screenshot.jpg")
-	nick.exit()
+	await page.screenshot({ path: "screenshot.jpg" })
+	process.exit()
 })()
 .catch((err) => {
 	console.log(`Something went wrong: ${err}`)
-	nick.exit(1)
+	process.exit(1)
 })

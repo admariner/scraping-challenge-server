@@ -41,16 +41,14 @@ const scrape = () => {
 		args: ["--no-sandbox"]
 	})
 	const page = await browser.newPage()
-	// Set the userAgent to be able to access the page (otherwise the useragent is random)
-	await page.setUserAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
+	// Set the required cookie in order to access the page
+	await page.setCookie({
+	    name: "phantomCookie",
+	    value: "sample_value",
+	    domain: "scraping-challenges.phantombuster.com",
+	})
 	// Open the webpage
-	await page.goto("http://scraping-challenges.phantombuster.com/login")
-	// Wait for the form to be visible
-	await page.waitForSelector("form")
-	// Fill the form and submit
-	await page.type("#email", "john@doe.com")
-	await page.type("#password", "johnjohn")
-	await page.click("form button")
+	await page.goto("http://scraping-challenges.phantombuster.com/cookies")
 	// Wait for the data to be visible
 	await page.waitForSelector(".person > .panel-body")
 	// Inject jQuery to manipulate the page easily
