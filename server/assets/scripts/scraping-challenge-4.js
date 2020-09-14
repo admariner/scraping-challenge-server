@@ -1,22 +1,16 @@
-// Phantombuster configuration {
-
-"phantombuster command: nodejs"
-"phantombuster package: 4"
-"phantombuster flags: save-folder" // Save all files at the end of the script
+"phantombuster command: node"
+"phantombuster package: 5"
+// Save all files at the end of the script
+"phantombuster flags: save-folder"
 
 const Buster = require("phantombuster")
 const buster = new Buster()
+const puppeteer = require("puppeteer")
 
-const Nick = require("nickjs")
-const nick = new Nick({
-	userAgent: "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"	
-})
-
-// }
-
+// Simple scraping function, getting all the infos using jQuery and returning them with the callback "done"
 const scrape = (arg, done) => {
-	var data = $("div.person > div.panel-body").map(function () {
-		return({
+	const data = $("div.person > div.panel-body").map(function(){
+		return {
 			name: $(this).find(".name").text().trim(),
 			birth_year: $(this).find(".birth_year").text().trim(),
 			death_year: $(this).find(".death_year").text().trim(),
@@ -35,29 +29,43 @@ const scrape = (arg, done) => {
 			died_in_titanic: $(this).find(".died_in_titanic").text().trim(),
 			body_recovered: $(this).find(".body_recovered").text().trim(),
 			rescue_boat_num: $(this).find(".rescue_boat_num").text().trim()
-		})
+		}
 	})
-	done(null, $.makeArray(data))
+	return $.makeArray(data)
 }
 
 ;(async () => {
-	const tab = await nick.newTab()
-	await tab.open("http://scraping-challenges.phantombuster.com/login")
-	await tab.waitUntilVisible("form")
-	// Using fill to fill each input (the key are the name of the input)
-	await tab.fill("form", {
-		email: "john@doe.com",
-		password: "johnjohn"
-	}, { submit: true }) // Submit to true mean we submit the form just after filling it
-	// Wait again due to the page reload
-	await tab.waitUntilVisible(".person > .panel-body")
-	await tab.inject("../injectables/jquery-3.0.0.min.js")
-	const result = await tab.evaluate(scrape)
-	await tab.screenshot("screenshot.jpg")
+	// Init browser environment
+	const browser = await puppeteer.launch({
+		// This is needed to run Puppeteer in a Phantombuster container
+		args: ["--no-sandbox"]
+	})
+	const page = await browser.newPage()
+	// Set the userAgent to be able to access the page (otherwise the useragent is random)
+	await page.setUserAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
+	// Open the webpage
+	await page.goto("http://scraping-challenges.phantombuster.com/login")
+	// Wait for the form to be visible
+	await page.waitForSelector("form")
+	// Fill the form and submit
+	await page.type("#email", "john@doe.com")
+	await page.type("#password", "johnjohn")
+	await page.click("form button")
+	// Wait for the data to be visible
+	await page.waitForSelector(".person > .panel-body")
+	// Inject jQuery to manipulate the page easily
+	await page.addScriptTag({ path: "../injectables/jquery-3.0.0.min.js" })
+	// Launch the scrape function in the page context
+	const result = await page.evaluate(scrape)
+	// Take a screenshot of the whole page
+	await page.screenshot({ path: "screenshot.jpg" })
+	// Send the data in the result object
 	await buster.setResultObject(result)
-	nick.exit()
+	// Exit the programm without errors
+	process.exit()
 })()
 .catch((err) => {
 	console.log(`Something went wrong: ${err}`)
-	nick.exit(1)
+	// Exit the programm with errors
+	process.exit(1)
 })

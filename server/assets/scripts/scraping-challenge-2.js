@@ -49,14 +49,14 @@ const scrapePage = async (page, url) => {
 
 // Loop to get all data by concataining it in res
 const scrapeAllPages = async () => {
-    	// Init browser environment
+	// Init browser environment
 	const browser = await puppeteer.launch({
 		// This is needed to run Puppeteer in a Phantombuster container
 		args: ["--no-sandbox"]
 	})
 	const page = await browser.newPage()
 	let res = []
-	// There is 50 pages so we loop 50 times
+	// There are 50 pages so we loop 50 times
 	for (let i = 0; i < 50; i++) {
 		res = res.concat(await scrapePage(page, baseUrl + i))
 	}
@@ -71,5 +71,5 @@ scrapeAllPages()
 	})
 	.catch((err) => {
 		console.log(`Something went wrong: ${err}`)
-		nick.exit(1)
+		process.exit(1)
 	})
