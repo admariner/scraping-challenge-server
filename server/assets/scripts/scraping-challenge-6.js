@@ -7,7 +7,7 @@ const Buster = require("phantombuster")
 const buster = new Buster()
 const puppeteer = require("puppeteer")
 
-// Simple scraping function, getting all the infos using jQuery and returning them with the callback "done"
+// Simple scraping function, getting all the infos using jQuery and returning them
 const scrape = () => {
 	const data = $("div.person > div.panel-body").map(function(){
 		return {

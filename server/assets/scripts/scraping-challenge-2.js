@@ -10,7 +10,7 @@ const puppeteer = require("puppeteer")
 // Set the base url to exploit the pagination in the url path to explore all pages
 const baseUrl = "http://scraping-challenges.phantombuster.com/pagination?page="
 
-// Simple scraping function, getting all the infos using jQuery and returning them with the callback "done"
+// Simple scraping function, getting all the infos using jQuery and returning them
 const scrape = () => {
 	const data = $("div.person > div.panel-body").map(function() {
 		return ({
